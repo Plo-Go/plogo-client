@@ -9,7 +9,7 @@ import { onboardingIconsData } from '@core/onboardingIconsData';
 import { firstOnboardingState, secondOnboardingState, thirdOnboardingState } from '@recoil/atom';
 import usePostPreferKeyword from '@hooks/onboarding/usePostPreferKeyword';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [selectedKeywords, setSelectedKeywords] = useRecoilState(thirdOnboardingState);
   const currentIcons = onboardingIconsData.slice(6, 9);

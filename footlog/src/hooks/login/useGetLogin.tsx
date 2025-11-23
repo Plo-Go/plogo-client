@@ -42,7 +42,7 @@ const useGetLogin = () => {
           }
         });
     }
-  }, [KAKAO_CODE, router]);
+  }, [KAKAO_CODE, KAKAO_REDIRECT_URI, router]);
 
   useEffect(() => {
     if (isLoggedIn) {

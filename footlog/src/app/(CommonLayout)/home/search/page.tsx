@@ -13,7 +13,7 @@ import useGetPopularCourse from '@hooks/common/useGetPopularCourse';
 import useGetRecentCourse from '@hooks/common/useGetRecentCourse';
 import useGetCityRegions from '@hooks/home/search/useGetCityRegions';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
 

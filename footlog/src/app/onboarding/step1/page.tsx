@@ -7,7 +7,7 @@ import OnboardingBtn from '@components/onboarding/OnboardingBtn';
 import { firstOnboardingState } from '@recoil/atom';
 import { onboardingIconsData } from '@core/onboardingIconsData';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [selectedKeywords, setSelectedKeywords] = useRecoilState(firstOnboardingState);
   const currentIcons = onboardingIconsData.slice(0, 3);
@@ -28,7 +28,7 @@ export default function page() {
   const isOnboardingBtnDisabled = selectedKeywords.length === 0;
 
   return (
-    <main className="px-24pxr pt-32pxr relative flex h-full w-full flex-col">
+    <main className="relative flex h-full w-full flex-col px-24pxr pt-32pxr">
       <OnboardingTitle
         number={1}
         text={

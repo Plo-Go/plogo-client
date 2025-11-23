@@ -10,7 +10,7 @@ import useGetUserInfo from '@hooks/mypage/useGetUserInfo';
 import useDeleteUser from '@hooks/mypage/useDeleteUser';
 import ConfirmModal from '@components/mypage/ConfirmModal';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const { data: saveCourseList } = useGetSaveCourseList();
   const { data: recentCourseList } = useGetRecentCourse();

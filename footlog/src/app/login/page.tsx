@@ -2,7 +2,7 @@
 import { LogoTextIcon } from '@public/icon';
 import LoginBtn from '@components/login/LoginBtn';
 
-export default function page() {
+export default function Page() {
   return (
     <main className="relative flex h-full w-full flex-col items-center pt-300pxr">
       <section className="flex flex-col items-center gap-8pxr pt-12pxr">

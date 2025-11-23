@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SearchHeader from '@components/home/search/SearchHeader';
@@ -18,12 +19,10 @@ export default function Page() {
   const { data: searchData } = useGetSearchResult(searchInput);
   const { data: cityRegions } = useGetCityRegions();
 
-  if (!coursesData || !cityRegions) {
-    return <></>;
-  }
-
+  // _는 eslint에서 무시하도록 설정해 둔 상태
   const [_, setFilteredCourses] = useState<CourseResponseDtoDataTypes[]>([]);
-  const filteredLocations = filterLocations(cityRegions.data, searchInput);
+
+  const filteredLocations = filterLocations(cityRegions?.data ?? [], searchInput);
 
   // 쿼리 파라미터에서 초기 검색어 가져오기
   useEffect(() => {
@@ -39,7 +38,7 @@ export default function Page() {
 
   // searchInput이 변경될 때마다 필터링된 결과 업데이트
   useEffect(() => {
-    const filtered = filterCourses(coursesData?.data, searchInput);
+    const filtered = filterCourses(coursesData?.data ?? [], searchInput);
     setFilteredCourses(filtered);
 
     const query = new URLSearchParams(window.location.search).get('query');
@@ -50,7 +49,12 @@ export default function Page() {
     } else {
       setShowBigCards(true); // searchInput이 쿼리와 같거나 입력 중일 때는 true로 설정
     }
-  }, [searchInput, window.location.search]);
+  }, [searchInput, window.location.search, coursesData]);
+
+  // 데이터 아직 없으면 렌더링 스킵
+  if (!coursesData || !cityRegions) {
+    return <></>;
+  }
 
   // 엔터 키를 눌렀을 때 호출되는 함수
   const handleEnterKey = (e: React.KeyboardEvent) => {
@@ -73,7 +77,7 @@ export default function Page() {
       <SearchHeader
         searchInput={searchInput}
         setSearchInput={setSearchInput}
-        onKeyDown={handleEnterKey} // onKeyDown 이벤트 전달
+        onKeyDown={handleEnterKey}
         onSearch={handleSearch}
       />
       <SearchedResults

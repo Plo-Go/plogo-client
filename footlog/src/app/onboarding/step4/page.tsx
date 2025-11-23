@@ -7,7 +7,7 @@ import OnboardingBtn from '@components/onboarding/OnboardingBtn';
 import { MoonLoader } from 'react-spinners';
 import useGetUserInfo from '@hooks/mypage/useGetUserInfo';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [isOnboardingBtnDisabled, setIsOnboardingBtnDisabled] = useState(true);
   const { data: userInfo } = useGetUserInfo();

@@ -19,6 +19,7 @@ export default function BigLocationCard(props: LocationCardProps) {
   const region_id = pathname.split('/').pop();
   const regionIdNumber = region_id ? Number(region_id) : undefined;
   const isBigPage = pathname.includes('/big');
+
   const { mutate: postSaveMutate } = usePostSave();
   const { refetch: refetchCompletedList } = useGetCompletedList();
   const { refetch: refetchSavedList } = useGetSaveCourseList();
@@ -26,13 +27,14 @@ export default function BigLocationCard(props: LocationCardProps) {
   const { refetch: refetchPopular } = useGetPopularCourse();
   const { refetch: refetchRecentCourse } = useGetRecentCourse();
 
-  const { refetch: refetchSmallCourse } = regionIdNumber ? useGetCityCourse(regionIdNumber) : { refetch: null };
-  const { refetch: refetchBigCourse } = regionIdNumber ? useGetRegionalCourse(regionIdNumber) : { refetch: null };
+  // ✅ Hook은 무조건 호출, regionIdNumber 없으면 기본값 사용
+  const { refetch: refetchSmallCourse } = useGetCityCourse(regionIdNumber ?? 1);
+  const { refetch: refetchBigCourse } = useGetRegionalCourse(regionIdNumber ?? 1);
 
   const [isSaved, setIsSaved] = useState(course.isSave);
 
   const handleSaveClick = () => {
-    const newSaveState = !isSaved; // 현재 저장 상태 반전
+    const newSaveState = !isSaved;
 
     postSaveMutate(
       { course_id: course.course_id },
@@ -45,14 +47,12 @@ export default function BigLocationCard(props: LocationCardProps) {
           refetchPopular();
           refetchRecentCourse();
 
-          // BigPage일 경우 BigCourse refetch
-          if (isBigPage && refetchBigCourse) {
-            refetchBigCourse();
-          }
-
-          // SmallPage일 경우 SmallCourse refetch
-          if (!isBigPage && refetchSmallCourse) {
-            refetchSmallCourse();
+          if (regionIdNumber) {
+            if (isBigPage) {
+              refetchBigCourse();
+            } else {
+              refetchSmallCourse();
+            }
           }
         },
       },

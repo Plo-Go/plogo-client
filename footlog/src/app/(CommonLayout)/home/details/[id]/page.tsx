@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import DetailsHeader from '@components/home/details/DetailsHeader';
@@ -21,15 +22,19 @@ import useGetRegionalCourse from '@hooks/home/list/useGetRegionalCourse';
 export default function Page() {
   const pathname = usePathname();
   const course_id = pathname.split('/').pop();
+  const courseIdNumber = course_id ? Number(course_id) : undefined;
+
+  // courseIdNumber 자체가 없으면 이 페이지를 렌더할 이유가 없으니 바로 반환
+  if (!courseIdNumber) {
+    return null; // 필요하면 에러 페이지나 404로 바꿀 수 있음
+  }
+
   const { mutate: postCompleteMutate } = usePostComplete();
   const { mutate: postSaveMutate } = usePostSave();
 
-  const courseIdNumber = course_id ? Number(course_id) : undefined;
+  const { data: courseResponse, refetch: refetchCourseDetails } = useGetCourseDetails(courseIdNumber);
+  const { data: blogResponse } = useGetBlogPosting(courseIdNumber);
 
-  const { data: courseResponse, refetch: refetchCourseDetails = () => {} } = courseIdNumber
-    ? useGetCourseDetails(courseIdNumber)
-    : { data: null };
-  const { data: blogResponse } = courseIdNumber ? useGetBlogPosting(courseIdNumber) : { data: null };
   const { refetch: refetchCompletedList } = useGetCompletedList();
   const { refetch: refetchSavedList } = useGetSaveCourseList();
   const { refetch: refetchRecommend } = useGetRecommend();
@@ -45,15 +50,23 @@ export default function Page() {
   useEffect(() => {
     const previousUrl = localStorage.getItem('previousUrl');
     if (previousUrl) {
-      const previousPathname = new URL(previousUrl).pathname; // URL의 경로만 가져오기
+      const previousPathname = new URL(previousUrl).pathname;
 
-      const region_id = previousPathname.split('/').pop(); // 이전 URL의 마지막 부분
+      const region_id = previousPathname.split('/').pop();
       const regionId = region_id ? Number(region_id) : undefined;
 
       setRegionIdNumber(regionId);
       setIsBigPage(previousPathname.includes('/big'));
     }
   }, []);
+
+  // 아직 데이터 안 들어왔을 때
+  if (!courseResponse || !blogResponse) {
+    return <></>; // 필요하면 로딩 컴포넌트로 바꿔도 됨
+  }
+
+  const course = courseResponse.data;
+  const posting = blogResponse.data;
 
   const handleSaveClick = () => {
     postSaveMutate(
@@ -66,11 +79,10 @@ export default function Page() {
           refetchPopular();
           refetchRecentCourse();
 
-          // BigPage일 경우 BigCourse refetch
           if (isBigPage && regionIdNumber) {
             refetchBigCourse();
           }
-          // SmallPage일 경우 SmallCourse refetch
+
           if (!isBigPage && regionIdNumber) {
             refetchSmallCourse();
           }
@@ -98,13 +110,6 @@ export default function Page() {
       refetchSmallCourse();
     }
   };
-
-  if (!courseResponse || !blogResponse) {
-    return <></>;
-  }
-
-  const course = courseResponse.data;
-  const posting = blogResponse.data;
 
   return (
     <main className="relative flex h-full w-full flex-col">

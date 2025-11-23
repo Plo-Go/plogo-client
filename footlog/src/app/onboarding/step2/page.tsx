@@ -8,7 +8,7 @@ import OnboardingBtn from '@components/onboarding/OnboardingBtn';
 import { secondOnboardingState } from '@recoil/atom';
 import { onboardingIconsData } from '@core/onboardingIconsData';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const [selectedKeywords, setSelectedKeywords] = useRecoilState(secondOnboardingState);
   const currentIcons = onboardingIconsData.slice(3, 6);

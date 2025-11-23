@@ -3,7 +3,7 @@ import BigLocationCard from '@components/common/LocationCard/BigLocationCard';
 import ListHeader from '@components/home/list/ListHeader';
 import useGetSaveCourseList from '@hooks/mypage/useGetSaveCourseList';
 
-export default function page() {
+export default function Page() {
   const { data: saveCourses } = useGetSaveCourseList();
 
   return (

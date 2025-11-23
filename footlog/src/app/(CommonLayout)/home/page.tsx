@@ -7,7 +7,7 @@ import useGetRecommend from '@hooks/home/useGetRecommend';
 import useGetPopularCourse from '@hooks/common/useGetPopularCourse';
 import useGetRegions from '@hooks/home/useGetRegions';
 
-export default function page() {
+export default function Page() {
   const { data: recommendCourses, refetch: refetchRecommend } = useGetRecommend();
   const { data: popularCourses, refetch: refetchPopular } = useGetPopularCourse();
   const { data: regions } = useGetRegions();

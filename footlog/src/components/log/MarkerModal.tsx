@@ -17,7 +17,7 @@ export default function MarkerModal({
   initialImages = [],
 }: MarkerModalProps) {
   const [text, setText] = useState<string>(initialText);
-  const [hasText, setHasText] = useState(true);
+  const [_, setHasText] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>(initialImages);
 
