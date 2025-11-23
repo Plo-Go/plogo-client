@@ -33,10 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content={viewportMetaContent} />
         <meta property="og:title" content="FootLog" />
         <meta property="og:description" content="건강한 발걸음을 위한 국내 플로깅 코스 추천 및 기록 서비스" />
-        <meta
-          property="og:image"
-          content="https://footlog-bucket.s3.ap-northeast-2.amazonaws.com/e3521c18-9logo2.png"
-        />
+        <meta property="og:image" content="https://plogo-bucket.s3.ap-northeast-2.amazonaws.com/plogo.png" />
         <meta property="og:url" content="https://footlog.site" />
       </head>
       <body>
