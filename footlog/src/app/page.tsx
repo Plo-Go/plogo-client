@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { LogoIcon } from '@public/icon';
 import { TeamTextIcon } from '@public/icon';
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
 
   useEffect(() => {

@@ -24,16 +24,11 @@ export default function Page() {
   const course_id = pathname.split('/').pop();
   const courseIdNumber = course_id ? Number(course_id) : undefined;
 
-  // courseIdNumber 자체가 없으면 이 페이지를 렌더할 이유가 없으니 바로 반환
-  if (!courseIdNumber) {
-    return null; // 필요하면 에러 페이지나 404로 바꿀 수 있음
-  }
-
   const { mutate: postCompleteMutate } = usePostComplete();
   const { mutate: postSaveMutate } = usePostSave();
 
-  const { data: courseResponse, refetch: refetchCourseDetails } = useGetCourseDetails(courseIdNumber);
-  const { data: blogResponse } = useGetBlogPosting(courseIdNumber);
+  const { data: courseResponse, refetch: refetchCourseDetails } = useGetCourseDetails(courseIdNumber as number);
+  const { data: blogResponse } = useGetBlogPosting(courseIdNumber as number);
 
   const { refetch: refetchCompletedList } = useGetCompletedList();
   const { refetch: refetchSavedList } = useGetSaveCourseList();
@@ -61,7 +56,7 @@ export default function Page() {
   }, []);
 
   // 아직 데이터 안 들어왔을 때
-  if (!courseResponse || !blogResponse) {
+  if (!courseIdNumber || !courseResponse || !blogResponse) {
     return <></>; // 필요하면 로딩 컴포넌트로 바꿔도 됨
   }
 
