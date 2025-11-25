@@ -119,10 +119,10 @@ export default function Page() {
         <InfoContainer
           summary={course.summary}
           address={course.address}
-          charge={course.charge === '정보 없음' ? '프로그램별로 이용 요금 상이' : course.charge}
+          charge="프로그램별로 이용 요금 상이"
           time="프로그램별로 이용 시간 상이"
           tel={course.tel}
-          homepage={course.homepage === '정보 없음' ? '홈페이지 / 웹사이트 URL' : course.homepage}
+          homepage="홈페이지 정보가 제공되지 않습니다."
         />
         <div className="h-8pxr w-full bg-gray-1" />
         <BlogContainer title={course.name} posting={posting} />
