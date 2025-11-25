@@ -32,6 +32,7 @@ export default function MarkerModal({
     setText(inputValue);
     setHasText(inputValue.length > 0);
   };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -44,6 +45,7 @@ export default function MarkerModal({
       setImages(updatedImages);
     }
   };
+
   const handleFormSubmit = () => {
     const allImages = [...imageUrls, ...images]; // 기존 이미지 URL과 새 이미지 파일을 합침
     onSubmit(text, allImages);
@@ -58,6 +60,13 @@ export default function MarkerModal({
       setImages(images.filter((_, i) => i !== adjustedIndex));
     }
   };
+
+  // 👉 이미지/버튼/플레이스홀더 배치용 계산
+  const totalImages = imageUrls.length + images.length;
+  const showAddButton = totalImages < 3;
+  // 이미지 1개 + 버튼일 때만 오른쪽에 투명 placeholder 추가
+  const needPlaceholder = totalImages === 1 && showAddButton;
+
   return (
     <div className="absolute inset-0 z-50 flex w-full bg-black bg-opacity-50">
       <div className="absolute bottom-0 left-1/2 h-374pxr w-full flex-shrink-0 -translate-x-1/2 transform rounded-markerModal bg-white shadow-markerModal">
@@ -85,6 +94,7 @@ export default function MarkerModal({
 
           {/* 이미지 영역 */}
           <div className="mt-20pxr flex justify-between">
+            {/* 실제 URL 이미지들 */}
             {imageUrls.map((url, index) => (
               <div key={index} className="relative">
                 <img src={url} alt={`이미지 ${index + 1}`} className="h-106pxr w-106pxr rounded-lg object-cover" />
@@ -93,6 +103,8 @@ export default function MarkerModal({
                 </button>
               </div>
             ))}
+
+            {/* 새로 업로드한 File 이미지들 */}
             {images.map((image, index) => (
               <div key={index + imageUrls.length} className="relative">
                 <img
@@ -107,13 +119,16 @@ export default function MarkerModal({
                 </button>
               </div>
             ))}
+
             {/* 이미지 추가 버튼 */}
-            {imageUrls.length + images.length < 3 && (
+            {showAddButton && (
               <label>
                 <Blank />
                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               </label>
             )}
+
+            {needPlaceholder && <div className="pointer-events-none h-106pxr w-106pxr opacity-0" />}
           </div>
 
           <button
